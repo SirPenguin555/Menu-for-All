@@ -39,24 +39,6 @@ Menu for All is currently in development. When launched, you'll be able to:
 4. **Discover Recipes** - Use our smart filters to find perfect meal ideas
 5. **Plan Your Week** - Organize meals and generate shopping lists
 
-### For Developers
-
-Want to contribute to Menu for All? Here's how to get started:
-
-```bash
-# Clone the repository
-git clone https://github.com/SirPenguin555/Menu-for-All.git
-cd Menu-for-All
-
-# Install dependencies
-npm install
-
-# Start the development server
-npm run dev
-
-# Run tests
-npm test
-```
 
 ## 🛠️ Technology Stack
 
@@ -100,10 +82,6 @@ Have suggestions or found a bug? We'd love to hear from you:
 
 - Open an issue on GitHub
 - Join our development discussions
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
