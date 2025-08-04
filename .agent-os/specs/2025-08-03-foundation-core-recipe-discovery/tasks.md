@@ -15,13 +15,13 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
   - [x] 1.5 Configure environment variables and project structure
   - [x] 1.6 Verify all tests pass for foundation setup
 
-- [ ] 2. Supabase Integration & Database Setup
-  - [ ] 2.1 Write tests for Supabase client configuration and connection
-  - [ ] 2.2 Set up Supabase project and configure environment variables
-  - [ ] 2.3 Create database schema with all tables, indexes, and RLS policies
-  - [ ] 2.4 Implement Supabase client wrapper with TypeScript types
-  - [ ] 2.5 Set up database triggers and functions for user profile creation
-  - [ ] 2.6 Verify all tests pass for database integration
+- [x] 2. Supabase Integration & Database Setup
+  - [x] 2.1 Write tests for Supabase client configuration and connection
+  - [x] 2.2 Set up Supabase project and configure environment variables
+  - [x] 2.3 Create database schema with all tables, indexes, and RLS policies
+  - [x] 2.4 Implement Supabase client wrapper with TypeScript types
+  - [x] 2.5 Set up database triggers and functions for user profile creation
+  - [x] 2.6 Verify all tests pass for database integration
 
 - [ ] 3. Authentication System Implementation
   - [ ] 3.1 Write tests for authentication service and user management

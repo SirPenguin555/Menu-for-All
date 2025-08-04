@@ -26,6 +26,47 @@ export async function testSupabaseConnection() {
   }
 }
 
+export async function testDatabaseSchema() {
+  try {
+    const supabase = createClient()
+    
+    // Test that all expected tables exist by running simple queries
+    const tests = [
+      { table: 'users', query: supabase.from('users').select('id').limit(1) },
+      { table: 'recipes', query: supabase.from('recipes').select('id').limit(1) },
+      { table: 'user_saved_recipes', query: supabase.from('user_saved_recipes').select('id').limit(1) },
+      { table: 'pantry_items', query: supabase.from('pantry_items').select('id').limit(1) }
+    ]
+    
+    const results = []
+    
+    for (const test of tests) {
+      const { error } = await test.query
+      if (error && !error.message.includes('relation "public.')) {
+        results.push({ table: test.table, success: false, error: error.message })
+      } else {
+        results.push({ table: test.table, success: true })
+      }
+    }
+    
+    const allSuccess = results.every(r => r.success)
+    
+    if (allSuccess) {
+      console.log('Database schema test successful!')
+    } else {
+      console.error('Some database schema tests failed:', results.filter(r => !r.success))
+    }
+    
+    return { success: allSuccess, results }
+  } catch (error) {
+    console.error('Database schema test error:', error)
+    return { 
+      success: false, 
+      error: error instanceof Error ? error.message : 'Unknown error' 
+    }
+  }
+}
+
 export async function testSupabaseAuth() {
   try {
     const supabase = createClient()

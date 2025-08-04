@@ -7,6 +7,7 @@ beforeAll(() => {
 })
 
 import { createClient } from './client'
+import { testSupabaseConnection, testDatabaseSchema, testSupabaseAuth } from './test-connection'
 import type { Database } from '@/types/database'
 
 describe('Supabase Client', () => {
@@ -40,5 +41,28 @@ describe('Supabase Client', () => {
     expect(client.auth.signOut).toBeDefined()
     expect(client.auth.getSession).toBeDefined()
     expect(client.auth.getUser).toBeDefined()
+  })
+})
+
+describe('Supabase Connection Tests', () => {
+  it('should export connection test functions', () => {
+    expect(testSupabaseConnection).toBeDefined()
+    expect(testDatabaseSchema).toBeDefined()
+    expect(testSupabaseAuth).toBeDefined()
+    expect(typeof testSupabaseConnection).toBe('function')
+    expect(typeof testDatabaseSchema).toBe('function')
+    expect(typeof testSupabaseAuth).toBe('function')
+  })
+
+  it('should handle connection test structure without real connection', () => {
+    // Just test the function structure without making actual network calls
+    expect(testSupabaseConnection).toBeDefined()
+    expect(testDatabaseSchema).toBeDefined()
+    expect(testSupabaseAuth).toBeDefined()
+    
+    // These functions should return promises
+    expect(testSupabaseConnection()).toBeInstanceOf(Promise)
+    expect(testDatabaseSchema()).toBeInstanceOf(Promise)
+    expect(testSupabaseAuth()).toBeInstanceOf(Promise)
   })
 })
