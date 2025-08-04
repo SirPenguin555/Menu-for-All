@@ -100,7 +100,6 @@ Have suggestions or found a bug? We'd love to hear from you:
 
 - Open an issue on GitHub
 - Join our development discussions
-- Follow our progress on social media
 
 ## 📜 License
 
