@@ -12,7 +12,7 @@
 ### Must-Have Features
 
 - [x] Next.js application setup with TypeScript - `S`
-- [ ] Supabase integration for authentication and database - `M`  
+- [x] Supabase integration for authentication and database - `M`  
 - [ ] User registration and login system - `M`
 - [ ] Basic recipe data model and storage - `M`
 - [ ] Recipe scraping service for 2-3 popular sources - `L`
