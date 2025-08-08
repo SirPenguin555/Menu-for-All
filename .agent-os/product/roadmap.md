@@ -1,8 +1,8 @@
 # Product Roadmap
 
-> Last Updated: 2025-08-03
-> Version: 1.0.0
-> Status: Planning
+> Last Updated: 2025-08-08
+> Version: 1.1.0
+> Status: Phase 1 - Authentication Complete
 
 ## Phase 1: Foundation & Core Recipe Discovery (3-4 weeks)
 
@@ -13,7 +13,7 @@
 
 - [x] Next.js application setup with TypeScript - `S`
 - [x] Supabase integration for authentication and database - `M`  
-- [ ] User registration and login system - `M`
+- [x] User registration and login system - `M`
 - [ ] Basic recipe data model and storage - `M`
 - [ ] Recipe scraping service for 2-3 popular sources - `L`
 - [ ] Recipe listing page with pagination - `S`
