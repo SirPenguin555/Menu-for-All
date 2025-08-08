@@ -2,6 +2,29 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import type { Database } from '@/types/database'
 
+// Define route patterns for different access levels
+const protectedRoutes = [
+  '/profile',
+  '/dashboard',
+  '/pantry',
+  '/saved-recipes',
+  '/meal-plans'
+]
+
+const guestOnlyRoutes = [
+  '/auth',
+  '/login',
+  '/register'
+]
+
+const publicRoutes = [
+  '/',
+  '/recipes',
+  '/about',
+  '/contact',
+  '/test-supabase'
+]
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -31,19 +54,41 @@ export async function updateSession(request: NextRequest) {
 
   const {
     data: { user },
+    error
   } = await supabase.auth.getUser()
 
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/auth')
-  ) {
-    // no user, redirect to login page
+  const pathname = request.nextUrl.pathname
+  
+  // Check if route is protected
+  const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route))
+  const isGuestOnlyRoute = guestOnlyRoutes.some(route => pathname.startsWith(route))
+  const isPublicRoute = publicRoutes.some(route => pathname === route || pathname.startsWith(route))
+
+  // Handle protected routes - redirect to auth if no user
+  if (isProtectedRoute && (!user || error)) {
     const url = request.nextUrl.clone()
-    url.pathname = '/login'
+    url.pathname = '/auth'
+    url.searchParams.set('redirectTo', pathname)
     return NextResponse.redirect(url)
   }
 
+  // Handle guest-only routes - redirect authenticated users to home or redirect target
+  if (isGuestOnlyRoute && user && !error) {
+    const url = request.nextUrl.clone()
+    const redirectTo = url.searchParams.get('redirectTo')
+    
+    if (redirectTo && redirectTo.startsWith('/')) {
+      url.pathname = redirectTo
+      url.search = '' // Clear search params
+    } else {
+      url.pathname = '/'
+      url.search = '' // Clear search params
+    }
+    
+    return NextResponse.redirect(url)
+  }
+
+  // For public routes or when user state is appropriate, continue normally
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
   // creating a new response object with NextResponse.next() make sure to:
   // 1. Pass the request in it, like so:

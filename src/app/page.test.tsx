@@ -1,8 +1,49 @@
 import { render, screen } from '@testing-library/react'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import HomePage from './page'
 
+// Mock next/navigation
+const mockPush = vi.fn()
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: mockPush
+  })
+}))
+
+// Mock the session hook
+const mockSession = {
+  isAuthenticated: false,
+  isLoading: false,
+  user: null,
+  session: null,
+  refreshSession: vi.fn()
+}
+
+vi.mock('@/hooks/useSession', () => ({
+  useSession: () => mockSession
+}))
+
+// Mock the auth context completely
+vi.mock('@/contexts/AuthContext', () => ({
+  useAuth: () => ({
+    user: null,
+    session: null,
+    loading: false,
+    signUp: vi.fn(),
+    signIn: vi.fn(),
+    signOut: vi.fn(),
+    refreshSession: vi.fn()
+  }),
+  AuthProvider: ({ children }: { children: React.ReactNode }) => children
+}))
+
 describe('HomePage', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    mockSession.isAuthenticated = false
+    mockSession.isLoading = false
+  })
+
   it('renders the main heading', () => {
     render(<HomePage />)
     
@@ -17,12 +58,24 @@ describe('HomePage', () => {
     expect(description).toBeInTheDocument()
   })
 
-  it('renders Get Started button', () => {
+  it('renders Get Started button when not authenticated', () => {
+    mockSession.isAuthenticated = false
+    
     render(<HomePage />)
     
     const getStartedButton = screen.getByRole('button', { name: /get started/i })
     expect(getStartedButton).toBeInTheDocument()
     expect(getStartedButton).toHaveClass('btn-primary')
+  })
+
+  it('renders Go to Profile button when authenticated', () => {
+    mockSession.isAuthenticated = true
+    
+    render(<HomePage />)
+    
+    const profileButton = screen.getByRole('button', { name: /go to profile/i })
+    expect(profileButton).toBeInTheDocument()
+    expect(profileButton).toHaveClass('btn-primary')
   })
 
   it('renders Learn More button', () => {
