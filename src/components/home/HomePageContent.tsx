@@ -5,16 +5,40 @@ import { useSession } from '@/hooks/useSession'
 
 export function HomePageContent() {
   const router = useRouter()
-  const { isAuthenticated, isLoading } = useSession()
+  const { isAuthenticated, isLoading, user, session, refreshSession } = useSession()
 
-  const handleGetStarted = () => {
-    if (isAuthenticated) {
-      // If user is already logged in, take them to profile for now
-      // TODO: Change to /recipes when recipe browsing is implemented
-      router.push('/profile')
-    } else {
-      // If not logged in, take them to auth page
-      router.push('/auth')
+  const handleGetStarted = async (event?: React.MouseEvent) => {
+    event?.preventDefault()
+    event?.stopPropagation()
+    
+    if (isLoading) return
+    
+    console.log('handleGetStarted called:', {
+      isLoading,
+      isAuthenticated,
+      user: user?.id,
+      session: !!session
+    })
+    
+    try {
+      if (isAuthenticated && user && session) {
+        console.log('User is authenticated, refreshing session...')
+        // Refresh session to ensure it's still valid before navigating
+        await refreshSession()
+        console.log('Session refreshed, navigating to /profile')
+        
+        // Use window.location directly since router.push seems to be failing
+        console.log('Using window.location.href to navigate')
+        window.location.href = '/profile'
+      } else {
+        console.log('User not authenticated, navigating to /auth')
+        // If not logged in, take them to auth page
+        window.location.href = '/auth'
+      }
+    } catch (error) {
+      console.error('Navigation error:', error)
+      // If there's an error with session, redirect to auth
+      window.location.href = '/auth'
     }
   }
 
@@ -42,6 +66,7 @@ export function HomePageContent() {
           <div className="flex flex-col space-y-4 justify-center items-center
                           sm:flex-row sm:space-y-0 sm:space-x-4">
             <button 
+              type="button"
               onClick={handleGetStarted}
               disabled={isLoading}
               className="btn-primary text-lg px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -49,6 +74,7 @@ export function HomePageContent() {
               {isLoading ? 'Loading...' : isAuthenticated ? 'Go to Profile' : 'Get Started'}
             </button>
             <button 
+              type="button"
               onClick={handleLearnMore}
               className="btn-secondary text-lg px-8 py-3"
             >
@@ -86,7 +112,8 @@ export function HomePageContent() {
             <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
               <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mx-auto mb-4">
                 <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2 2v6zM8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 11v2m-3-2v2m6-2v2" />
                 </svg>
               </div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">

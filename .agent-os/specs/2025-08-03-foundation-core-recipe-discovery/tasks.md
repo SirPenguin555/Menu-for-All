@@ -32,14 +32,14 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
   - [x] 3.6 Create user profile management interface
   - [x] 3.7 Verify all tests pass for authentication system
 
-- [ ] 4. Recipe Data Model & Core Services
-  - [ ] 4.1 Write tests for recipe service and data operations
-  - [ ] 4.2 Implement recipe TypeScript types and validation schemas
-  - [ ] 4.3 Create recipe service with CRUD operations
-  - [ ] 4.4 Build recipe API routes with filtering and pagination
-  - [ ] 4.5 Implement saved recipes functionality for users
-  - [ ] 4.6 Create database helper functions and query builders
-  - [ ] 4.7 Verify all tests pass for recipe data layer
+- [x] 4. Recipe Data Model & Core Services
+  - [x] 4.1 Write tests for recipe service and data operations
+  - [x] 4.2 Implement recipe TypeScript types and validation schemas
+  - [x] 4.3 Create recipe service with CRUD operations
+  - [x] 4.4 Build recipe API routes with filtering and pagination
+  - [x] 4.5 Implement saved recipes functionality for users
+  - [x] 4.6 Create database helper functions and query builders
+  - [x] 4.7 Verify all tests pass for recipe data layer
 
 - [ ] 5. Recipe Scraping Service Development
   - [ ] 5.1 Write tests for web scraping service and data extraction

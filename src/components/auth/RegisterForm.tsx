@@ -32,6 +32,7 @@ export function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFormProps) 
   const [errors, setErrors] = useState<Partial<Record<keyof RegisterFormData, string>>>({})
   const [isLoading, setIsLoading] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
+  const [registeredEmail, setRegisteredEmail] = useState('')
 
   const handleInputChange = (field: keyof RegisterFormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -75,7 +76,8 @@ export function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFormProps) 
       })
       
       if (result.success) {
-        setSuccessMessage('Account created successfully! Please check your email to verify your account.')
+        setRegisteredEmail(formData.email)
+        setSuccessMessage('Account created successfully!')
         setFormData({
           email: '',
           password: '',
@@ -101,8 +103,26 @@ export function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFormProps) 
         </h2>
         
         {successMessage && (
-          <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
-            {successMessage}
+          <div className="mb-6 p-4 bg-green-50 border-l-4 border-green-400 rounded-md">
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-green-800">
+                  Account created successfully!
+                </h3>
+                <div className="mt-2 text-sm text-green-700">
+                  <p>
+                    We&apos;ve sent a verification email to <strong>{registeredEmail}</strong>. 
+                    Please check your inbox and click the verification link to complete your registration. 
+                    Don&apos;t forget to check your spam folder if you don&apos;t see it within a few minutes.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
         

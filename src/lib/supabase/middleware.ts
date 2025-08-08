@@ -59,13 +59,28 @@ export async function updateSession(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname
   
+  // Debug logging
+  console.log('Middleware check:', {
+    pathname,
+    hasUser: !!user,
+    hasError: !!error,
+    userId: user?.id
+  })
+  
   // Check if route is protected
   const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route))
   const isGuestOnlyRoute = guestOnlyRoutes.some(route => pathname.startsWith(route))
   const isPublicRoute = publicRoutes.some(route => pathname === route || pathname.startsWith(route))
+  
+  console.log('Route checks:', {
+    isProtectedRoute,
+    isGuestOnlyRoute,
+    isPublicRoute
+  })
 
   // Handle protected routes - redirect to auth if no user
   if (isProtectedRoute && (!user || error)) {
+    console.log('Redirecting to auth - no user for protected route')
     const url = request.nextUrl.clone()
     url.pathname = '/auth'
     url.searchParams.set('redirectTo', pathname)
